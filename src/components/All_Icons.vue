@@ -21,7 +21,7 @@
            :TogglePopup="() => TogglePopup('buttonTrigger')">
     </Popup>
     <div class="pagination-row">
-        <span v-for="(item, index) in new Array(10)" :key="index">
+        <span v-for="(item, index) in sumPage" :key="index">
           <button class="num_page"  @click="paginationClick(index + 1)">{{index + 1}}</button>
       </span>
     </div>
@@ -71,15 +71,14 @@ export default {
         return {
             icons: [],
             search: '',
-            page: this.currentPage
+            currentPage: 1,
+            totalIcons: 0,
+            totalPages: 0,
+            pageSize: 60
         }
 
     },
     methods: {
-        src() {
-            return src
-        },
-
         paginationClick(index) {
             this.paginationFunc(index)
         },
@@ -87,7 +86,7 @@ export default {
         async getIcons() {
             const {data} = await axios.get("https://svg.q19.kz/api/v1/icons/", {
                 params: {
-                    limit: 60,
+                    limit: this.pageSize,
                     keyword: this.search.toLowerCase(),
                     page: this.currentPage
 
@@ -97,7 +96,6 @@ export default {
             this.icons = data.data
             this.totalIcons = data.total;
         },
-
 
         async searchInput(event) {
             this.currentPage = 1
@@ -116,6 +114,20 @@ export default {
         },
 
 
+    },
+    computed: {
+        sumPage() {
+            this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
+            console.log(this.totalPages)
+            if (this.totalPages <= 10) {
+                const arr = new Array(this.totalPages)
+                return arr
+            }
+            else if (this.totalPages > 10) {
+                const arr = new Array(10)
+                return arr
+            }
+        }
     },
     async created() {
         await this.getIcons()
