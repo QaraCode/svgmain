@@ -7,7 +7,9 @@
                 <img :src="icon.url" style="width: 45px; margin: 20px; " alt="">
             </div>
             <div class="keywords" v-for="(item, index) in icon.keywords" :key='index'>
+                <template v-if="index < 5">
                 <span>{{ item }}</span>
+                </template>
             </div>
         </div>
     </div>
