@@ -1,15 +1,15 @@
 <template>
   <div class="popup">
-      <div class="popup_inner">
-          <button class="back_toggle" @click="TogglePopup()"></button>
-          <slot />
+        <div class="popup_inner">
+            <button class="back_toggle" @click="TogglePopup()"></button>
+            <slot />
 
-          <div class="title_icon" >
+            <div class="title_icon" >
+                
+            </div>
 
-          </div>
-
-      </div>
-  </div>
+        </div>
+    </div>
 </template>
 
 <script>

@@ -18,7 +18,6 @@
         </div>
     </div>
 
-
     <div class="icon_box">
         <div @click="() => TogglePopup('buttonTrigger')" class="icons_main" v-for="icon in filteredIcons() "
              :key="icon.id">
@@ -35,7 +34,6 @@
            </span>
         </div>
     </div>
-
 
 </template>
 
@@ -58,8 +56,7 @@ export default {
         const TogglePopup = (trigger) => {
             popupTriggers.value[trigger] = !popupTriggers.value[trigger]
         }
-
-
+        
         return {
             Popup,
             popupTriggers,
