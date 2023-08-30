@@ -18,7 +18,7 @@
 
 export default {
     name: "Popup",
-    props: ['TogglePopup',],
+    props: ['TogglePopup','icon'],
 }
 </script>
 
@@ -61,7 +61,6 @@ export default {
 }
 
 .back_toggle:hover{
-    background: red;
 }
 
 </style>

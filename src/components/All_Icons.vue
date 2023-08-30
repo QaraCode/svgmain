@@ -7,32 +7,34 @@
                placeholder="search"
                v-model="search">
         <div class="search_svg">
-            <svg width="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M20 20L15.8033 15.8033C15.8033 15.8033 14 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5C18 11.0137 17.9484 11.5153 17.85 12" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+            <svg width="25px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(0)">
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                <g id="SVGRepo_iconCarrier">
+                    <path d="M20 20L15.8033 15.8033C15.8033 15.8033 14 18 10.5 18C6.35786 18 3 14.6421 3 10.5C3 6.35786 6.35786 3 10.5 3C14.6421 3 18 6.35786 18 10.5C18 11.0137 17.9484 11.5153 17.85 12"
+                          stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                </g>
+            </svg>
         </div>
     </div>
 
 
     <div class="icon_box">
-        <div @click="() => TogglePopup('buttonTrigger')"  class="icons_main"   v-for="icon in filteredIcons() "  :key="icon.id">
-            <img  :src="icon.url" style="width: 45px; margin: 20px; " alt="" >
+        <div @click="() => TogglePopup('buttonTrigger')" class="icons_main" v-for="icon in filteredIcons() "
+             :key="icon.id">
+            <img :src="icon.url" style="width: 45px; margin: 20px; " alt="">
         </div>
     </div>
     <Popup v-if="popupTriggers.buttonTrigger"
            :TogglePopup="() => TogglePopup('buttonTrigger')">
     </Popup>
-    <div class="pagination-row">
-        <span v-for="(item, index) in new Array(10)" :key="index">
-          <button class="num_page"  @click="paginationClick(index + 1)">{{index + 1}}</button>
-      </span>
+    <div class="pag_main">
+        <div class="pagination-row">
+           <span v-for="(item, index) in new Array(10)" :key="index">
+               <button class="num_page" @click="paginationClick(index + 1)">{{ index + 1 }}</button>
+           </span>
+        </div>
     </div>
-
-
-
-
-
-
-
-
 
 
 </template>
@@ -48,7 +50,7 @@ import {ref} from "@vue/reactivity";
 export default {
     name: "All_Icons",
     components: {Popup, Pagination},
-    setup () {
+    setup() {
         const popupTriggers = ref({
             buttonTrigger: false,
         });
@@ -76,9 +78,7 @@ export default {
 
     },
     methods: {
-        src() {
-            return src
-        },
+
 
         paginationClick(index) {
             this.paginationFunc(index)
@@ -136,7 +136,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     margin-left: 120px;
-    margin-bottom: 150px;
+    margin-bottom: 45px;
 
 }
 
@@ -161,30 +161,33 @@ export default {
     margin-top: -5px;
 }
 
+.
+
 .pagination-row {
-    margin-left: 540px;
-    margin-top: -100px;
-    margin-bottom: 150px;
-    position: absolute;
-    border: solid 1px #f1f1f1;
-    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.arrow {
-    border-radius: 6px;
+.pag_main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 100px;
 }
+
 
 .num_page {
     border-radius: 4px;
     margin: 3px;
-    border: none;
+    border: solid 1px #f1f1f1;
     background: none;
     color: white;
     font-size: 22px;
     font-weight: 800;
 }
 
-.num_page:hover{
+.num_page:hover {
     background-color: snow;
     color: #222222;
 }
