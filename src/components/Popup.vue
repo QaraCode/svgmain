@@ -4,6 +4,11 @@
             <button class="back_toggle" @click="TogglePopup()"></button>
             <slot />
             <div class="title_icon">
+                <img :src="icon.url" style="width: 45px; margin: 20px; " alt="">
+            </div>
+            <div class="keywords" v-for="(item, index) in icon.keywords" :key='index'>
+                <span>{{ item }}</span>
+            </div>
         </div>
     </div>
 </template>
@@ -12,6 +17,17 @@
 export default {
     name: "Popup",
     props: ['TogglePopup'],
+    props: {
+        TogglePopup: {
+
+        },
+        icon: {
+            required: true
+        }
+    },
+    data() {
+
+    }
 }
 </script>
 

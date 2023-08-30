@@ -19,12 +19,13 @@
     </div>
 
     <div class="icon_box">
-        <div @click="() => TogglePopup('buttonTrigger')" class="icons_main" v-for="icon in filteredIcons() "
+        <div @click="() => TogglePopup('buttonTrigger')" v-on:click="saveIcon(icon)" class="icons_main" v-for="icon in filteredIcons()"
              :key="icon.id">
             <img :src="icon.url" style="width: 45px; margin: 20px; " alt="">
+
         </div>
     </div>
-    <Popup v-if="popupTriggers.buttonTrigger"
+    <Popup :icon="icon" v-if="popupTriggers.buttonTrigger"
            :TogglePopup="() => TogglePopup('buttonTrigger')">
     </Popup>
     <div class="pag_main">
@@ -34,7 +35,6 @@
            </span>
         </div>
     </div>
-
 </template>
 
 <script>
@@ -56,7 +56,7 @@ export default {
         const TogglePopup = (trigger) => {
             popupTriggers.value[trigger] = !popupTriggers.value[trigger]
         }
-        
+
         return {
             Popup,
             popupTriggers,
@@ -72,11 +72,15 @@ export default {
             currentPage: 1,
             totalIcons: 0,
             totalPages: 0,
-            pageSize: 60
+            pageSize: 60,
+            icon: []
         }
 
     },
     methods: {
+        saveIcon(icon) {
+            this.icon = icon
+        },
         paginationClick(index) {
             this.paginationFunc(index)
         },
