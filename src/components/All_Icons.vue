@@ -121,12 +121,10 @@ export default {
             this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
             console.log(this.totalPages)
             if (this.totalPages <= 10) {
-                const arr = new Array(this.totalPages)
-                return arr
+                return new Array(this.totalPages)
             }
             else if (this.totalPages > 10) {
-                const arr = new Array(10)
-                return arr
+                return new Array(10)
             }
         }
     },
@@ -190,12 +188,13 @@ export default {
 
 .num_page {
     border-radius: 4px;
-    margin: 3px;
+    margin: 7px;
     border: solid 1px #f1f1f1;
     background: none;
     color: white;
     font-size: 22px;
     font-weight: 800;
+
 }
 
 .num_page:hover {
