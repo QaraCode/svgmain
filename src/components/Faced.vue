@@ -1,11 +1,13 @@
 <template>
+
+    <div class="bg-animation">
+        <div id="stars"></div>
+        <div id="stars2"></div>
+        <div id="stars3"></div>
+        <div id="stars4"></div>
+    </div>
+
     <div class="container_f">
-        <div class="bg-animation">
-            <div id="stars"></div>
-            <div id="stars2"></div>
-            <div id="stars3"></div>
-            <div id="stars4"></div>
-        </div>
         <div class="box_f">
             <div class="header_f">
                 <p>216k icons</p>
@@ -111,16 +113,10 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
+    z-index: -1;
 }
 
-.bg-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
 
-}
 
 #stars {
     width: 1px;
