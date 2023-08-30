@@ -1,24 +1,17 @@
 <template>
-  <div class="popup">
+    <div class="popup">
         <div class="popup_inner">
             <button class="back_toggle" @click="TogglePopup()"></button>
             <slot />
-
-            <div class="title_icon" >
-                
-            </div>
-
+            <div class="title_icon">
         </div>
     </div>
 </template>
 
 <script>
-
-
-
 export default {
     name: "Popup",
-    props: ['TogglePopup','icon'],
+    props: ['TogglePopup'],
 }
 </script>
 
