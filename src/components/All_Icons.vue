@@ -1,6 +1,6 @@
 <template>
     <div class="input_big">
-        <input @keypress.enter="searchInput"
+        <input @input="showHints" @keypress.enter="searchInput"
                id="myInput"
                class="gig-input"
                type="search"
@@ -17,9 +17,13 @@
             </svg>
         </div>
     </div>
-
+    <div v-if="search" class="hints_main">
+            <div class="hints_inner" v-for="item in hints" :key="item.id">
+                <span>{{item.title}}</span>
+            </div>
+        </div>
     <div class="icon_box">
-        <div @click="() => TogglePopup('buttonTrigger')" v-on:click="saveIcon(icon)" class="icons_main" v-for="icon in filteredIcons()"
+        <div @click="() => {TogglePopup('buttonTrigger'); saveIcon(icon)}" class="icons_main" v-for="icon in filteredIcons()"
              :key="icon.id">
             <img :src="icon.url" style="width: 45px; margin: 20px; " alt="">
 
@@ -64,7 +68,6 @@ export default {
         }
     },
 
-
     data() {
         return {
             icons: [],
@@ -73,14 +76,30 @@ export default {
             totalIcons: 0,
             totalPages: 0,
             pageSize: 60,
-            icon: []
+            icon: [],
+            hints: []
         }
 
     },
     methods: {
+        async getHints() {
+            const {data} = await axios.get("https://svg.q19.kz/api/v1/keywords/", {
+                params: {
+                    title: this.search.toLowerCase(),
+                    limit: 5
+                }
+            })
+            this.hints = data.data
+        },
+        async showHints() {
+            await this.getHints()
+            return this.hints
+        },
+
         saveIcon(icon) {
             this.icon = icon
         },
+
         paginationClick(index) {
             this.paginationFunc(index)
         },
@@ -94,7 +113,7 @@ export default {
 
                 }
             })
-            console.log("res", data)
+            // console.log("res", data)
             this.icons = data.data
             this.totalIcons = data.total;
         },
@@ -110,17 +129,16 @@ export default {
         },
         async paginationFunc(index) {
             this.currentPage = index
-            console.log("Success", this.currentPage);
+            // console.log("Success", this.currentPage);
             await this.getIcons()
             this.filteredIcons()
         },
-
 
     },
     computed: {
         sumPage() {
             this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
-            console.log(this.totalPages)
+            // console.log(this.totalPages)
             if (this.totalPages <= 10) {
                 return new Array(this.totalPages)
             }
@@ -171,6 +189,29 @@ export default {
     position: absolute;
     margin-left: 125px;
     margin-top: -5px;
+}
+
+.hints_main {
+    width: 300px;
+    height: fit-content;
+    position: absolute;
+    z-index: 99;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(15px);
+    left: 165px;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    box-shadow: 0px 10px 30px;
+}
+
+.hints_inner{
+    margin-top: 5px;
+}
+
+.hints_inner span {
+    font-size: 18px;
 }
 
 .pagination-row {
