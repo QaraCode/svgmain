@@ -15,7 +15,7 @@
                 <p>Vue libraries</p>
             </div>
             <div class="header_h1">
-                <h1>Beautiful hand-crafted SVG icons, <br> by the makers of Tailwind CSS.</h1>
+                <h1>Beautiful hand-crafted SVG icons, <br> by the makers of Q19 .</h1>
             </div>
             <div class="footer_head">
                 <div class="svg_git">
