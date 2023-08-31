@@ -17,11 +17,13 @@
             </svg>
         </div>
     </div>
-    <div v-if="search" class="hints_main">
-        <div class="hints_inner" @click="hintSearch(item.title)" v-for="item in hints" :key="item.id">
-            <span>{{item.title}}</span>
+    <template v-if="hintbool">
+        <div v-if="search" class="hints_main">
+            <div class="hints_inner" @click="hintSearch(item.title)" v-for="item in hints" :key="item.id">
+                <span>{{item.title}}</span>
+            </div>
         </div>
-    </div>
+    </template>
     <div class="icon_box">
         <div @click="() => {TogglePopup('buttonTrigger'); saveIcon(icon)}" class="icons_main" v-for="icon in filteredIcons()"
              :key="icon.id">
@@ -78,6 +80,7 @@ export default {
             pageSize: 60,
             icon: [],
             hints: [],
+            hintbool: true
         }
 
     },
@@ -93,14 +96,16 @@ export default {
         },
         async showHints() {
             await this.getHints()
+            this.hintbool = true
+            // this.hintHide
             return this.hints
         },
         hintSearch(title) {
             this.search = title
             this.searchInput()
-            this.search = ''
+            this.hintbool = false
+            // this.search = ''
         },
-
         saveIcon(icon) {
             this.icon = icon
         },
@@ -125,9 +130,10 @@ export default {
 
         async searchInput(event) {
             this.currentPage = 1
+            this.hintbool = false
             await this.getIcons();
             this.filteredIcons();
-            this.search = ''
+            // this.search = ''
         },
         filteredIcons() {
             // this.getIcons()
@@ -142,6 +148,14 @@ export default {
 
     },
     computed: {
+        // hintHide() {
+        //     if(this.search) {
+        //         this.hintbool = true
+        //     }
+        //     else if (!this.search) {
+        //         this.hintbool = false
+        //     }
+        // },
         sumPage() {
             this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
             // console.log(this.totalPages)
@@ -157,6 +171,17 @@ export default {
         await this.getIcons()
         this.filteredIcons()
     },
+    mounted () {
+        if(localStorage.search) {
+            this.search = localStorage.search
+            this.searchInput()
+        }
+    },
+    watch: {
+        search(newSearch) {
+            localStorage.search = newSearch
+        }
+    }
 }
 </script>
 
