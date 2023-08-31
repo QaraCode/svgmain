@@ -18,10 +18,10 @@
         </div>
     </div>
     <div v-if="search" class="hints_main">
-            <div class="hints_inner" v-for="item in hints" :key="item.id">
-                <span>{{item.title}}</span>
-            </div>
+        <div class="hints_inner" @click="hintSearch(item.title)" v-for="item in hints" :key="item.id">
+            <span>{{item.title}}</span>
         </div>
+    </div>
     <div class="icon_box">
         <div @click="() => {TogglePopup('buttonTrigger'); saveIcon(icon)}" class="icons_main" v-for="icon in filteredIcons()"
              :key="icon.id">
@@ -77,7 +77,7 @@ export default {
             totalPages: 0,
             pageSize: 60,
             icon: [],
-            hints: []
+            hints: [],
         }
 
     },
@@ -94,6 +94,11 @@ export default {
         async showHints() {
             await this.getHints()
             return this.hints
+        },
+        hintSearch(title) {
+            this.search = title
+            this.searchInput()
+            this.search = ''
         },
 
         saveIcon(icon) {
@@ -122,6 +127,7 @@ export default {
             this.currentPage = 1
             await this.getIcons();
             this.filteredIcons();
+            this.search = ''
         },
         filteredIcons() {
             // this.getIcons()
@@ -208,6 +214,10 @@ export default {
 
 .hints_inner{
     margin-top: 5px;
+}
+
+.hints_inner:hover {
+    cursor: pointer;
 }
 
 .hints_inner span {
