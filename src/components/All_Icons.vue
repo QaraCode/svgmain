@@ -235,6 +235,7 @@ export default {
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
     box-shadow: 0px 10px 30px;
+    padding: 16px;
 }
 
 .hints_inner{
