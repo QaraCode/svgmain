@@ -36,9 +36,11 @@
     </Popup>
     <div class="pag_main">
         <div class="pagination-row">
-           <span v-for="(item, index) in sumPage" :key="index">
-               <button class="num_page" @click="paginationClick(index + 1)">{{ index + 1 }}</button>
-           </span>
+            <button class="pag_prev" v-if="currentPage != 1" @click="prevPage()">Previous</button>
+            <span v-for="(item, index) in sumPage" :key="index">
+               <button class="num_page" @click="paginationClick(item)" :class="numFunc(item)" v-if="item >= this.currentPage - 4">{{ item }}</button>
+            </span>
+            <button class="pag_next" v-if="currentPage != totalPages" @click="nextPage()">Next</button>
         </div>
     </div>
 </template>
@@ -96,18 +98,29 @@ export default {
         },
         async showHints() {
             await this.getHints()
-            this.hintbool = true
-            // this.hintHide
+                if(this.hints.length > 0) {
+                    this.hintbool = true
+                    console.log(true);
+                }
+                else if (this.hints.length == 0) {
+                    this.hintbool = false
+                    console.log(false);
+                }
             return this.hints
         },
         hintSearch(title) {
             this.search = title
             this.searchInput()
             this.hintbool = false
-            // this.search = ''
         },
         saveIcon(icon) {
             this.icon = icon
+        },
+        prevPage() {
+            this.paginationFunc(this.currentPage - 1)
+        },
+        nextPage() {
+            this.paginationFunc(this.currentPage + 1)
         },
 
         paginationClick(index) {
@@ -133,7 +146,6 @@ export default {
             this.hintbool = false
             await this.getIcons();
             this.filteredIcons();
-            // this.search = ''
         },
         filteredIcons() {
             // this.getIcons()
@@ -145,25 +157,30 @@ export default {
             await this.getIcons()
             this.filteredIcons()
         },
+        numFunc(num) {
+            if(num == this.currentPage) {
+                return 'active'
+            }
+            else {
+                return 'non-active'
+            }
+        }
 
     },
     computed: {
-        // hintHide() {
-        //     if(this.search) {
-        //         this.hintbool = true
-        //     }
-        //     else if (!this.search) {
-        //         this.hintbool = false
-        //     }
-        // },
         sumPage() {
             this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
             // console.log(this.totalPages)
-            if (this.totalPages <= 10) {
-                return new Array(this.totalPages)
+            if (this.totalPages <= 9) {
+                return this.totalPages
             }
-            else if (this.totalPages > 10) {
-                return new Array(10)
+            else if (this.totalPages > 9) {
+                if(this.currentPage+4 <= this.totalPages) {
+                    return this.currentPage + 4
+                }
+                else {
+                    return this.totalPages
+                }
             }
         }
     },
@@ -264,18 +281,22 @@ export default {
 }
 
 
-.num_page {
+.num_page, .pag_prev, .pag_next {
     border-radius: 4px;
     margin: 7px;
     border: solid 1px #f1f1f1;
     background: none;
-    color: white;
     font-size: 22px;
     font-weight: 800;
-
+    color: white;
 }
 
-.num_page:hover {
+.num_page:hover, .pag_prev:hover, .pag_next:hover {
+    background-color: snow;
+    color: #222222;
+}
+
+.num_page.active {
     background-color: snow;
     color: #222222;
 }
