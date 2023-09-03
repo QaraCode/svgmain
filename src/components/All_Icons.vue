@@ -34,15 +34,9 @@
     <Popup :icon="icon" v-if="popupTriggers.buttonTrigger"
            :TogglePopup="() => TogglePopup('buttonTrigger')">
     </Popup>
-    <div class="pag_main">
-        <div class="pagination-row">
-            <button class="pag_prev" v-if="currentPage != 1" @click="prevPage()">Previous</button>
-            <span v-for="(item, index) in sumPage" :key="index">
-               <button class="num_page" @click="paginationClick(item)" :class="numFunc(item)" v-if="item >= this.currentPage - 4">{{ item }}</button>
-            </span>
-            <button class="pag_next" v-if="currentPage != totalPages" @click="nextPage()">Next</button>
-        </div>
-    </div>
+    <Pagination :currentPage="currentPage" :totalItems="totalIcons" :pageLim="pageSize" @create="paginationFunc" :bgcolor="bgcolor" :color="color">
+
+    </Pagination>
 </template>
 
 <script>
@@ -82,7 +76,9 @@ export default {
             pageSize: 60,
             icon: [],
             hints: [],
-            hintbool: true
+            hintbool: true,
+            bgcolor: 'transparent',
+            color: 'white'
         }
 
     },
@@ -116,16 +112,16 @@ export default {
         saveIcon(icon) {
             this.icon = icon
         },
-        prevPage() {
-            this.paginationFunc(this.currentPage - 1)
-        },
-        nextPage() {
-            this.paginationFunc(this.currentPage + 1)
-        },
+        // prevPage() {
+        //     this.paginationFunc(this.currentPage - 1)
+        // },
+        // nextPage() {
+        //     this.paginationFunc(this.currentPage + 1)
+        // },
 
-        paginationClick(index) {
-            this.paginationFunc(index)
-        },
+        // paginationClick(index) {
+        //     this.paginationFunc(index)
+        // },
 
         async getIcons() {
             const {data} = await axios.get("https://svg.q19.kz/api/v1/icons/", {
@@ -153,36 +149,35 @@ export default {
         },
         async paginationFunc(index) {
             this.currentPage = index
-            // console.log("Success", this.currentPage);
             await this.getIcons()
             this.filteredIcons()
         },
-        numFunc(num) {
-            if(num == this.currentPage) {
-                return 'active'
-            }
-            else {
-                return 'non-active'
-            }
-        }
+        // numFunc(num) {
+        //     if(num == this.currentPage) {
+        //         return 'active'
+        //     }
+        //     else {
+        //         return 'non-active'
+        //     }
+        // }
 
     },
     computed: {
-        sumPage() {
-            this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
-            // console.log(this.totalPages)
-            if (this.totalPages <= 9) {
-                return this.totalPages
-            }
-            else if (this.totalPages > 9) {
-                if(this.currentPage+4 <= this.totalPages) {
-                    return this.currentPage + 4
-                }
-                else {
-                    return this.totalPages
-                }
-            }
-        }
+        // sumPage() {
+        //     this.totalPages = Math.ceil(this.totalIcons / this.pageSize)
+        //     // console.log(this.totalPages)
+        //     if (this.totalPages <= 9) {
+        //         return this.totalPages
+        //     }
+        //     else if (this.totalPages > 9) {
+        //         if(this.currentPage+4 <= this.totalPages) {
+        //             return this.currentPage + 4
+        //         }
+        //         else {
+        //             return this.totalPages
+        //         }
+        //     }
+        // }
     },
     async created() {
         await this.getIcons()
@@ -193,6 +188,8 @@ export default {
             this.search = localStorage.search
             this.searchInput()
         }
+        // const urlParams = new URLSearchParams(window.location.search);
+        // this.search = urlParams.get("search");
     },
     watch: {
         search(newSearch) {
@@ -203,7 +200,6 @@ export default {
 </script>
 
 <style scoped>
-
 
 .icon_box {
     width: 1200px;
@@ -266,40 +262,5 @@ export default {
 .hints_inner span {
     font-size: 18px;
 }
-
-.pagination-row {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.pag_main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 100px;
-}
-
-
-.num_page, .pag_prev, .pag_next {
-    border-radius: 4px;
-    margin: 7px;
-    border: solid 1px #f1f1f1;
-    background: none;
-    font-size: 22px;
-    font-weight: 800;
-    color: white;
-}
-
-.num_page:hover, .pag_prev:hover, .pag_next:hover {
-    background-color: snow;
-    color: #222222;
-}
-
-.num_page.active {
-    background-color: snow;
-    color: #222222;
-}
-
 
 </style>

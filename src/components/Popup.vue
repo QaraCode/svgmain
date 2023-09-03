@@ -25,13 +25,17 @@
                     </template>
                 </div>
             </div>
+            <Pagination :currentPage="currentPage" :totalItems="totalKeys" :pageLim="pageLim" @create="pagClick" :bgcolor="bgcolor" :color="color"></Pagination>
         </div>
     </div>
 </template>
 
 <script>
+import Pagination from './Pagination.vue';
+
 export default {
     name: "Popup",
+    components: { Pagination },
     props: {
         TogglePopup: {},
         icon: {
@@ -39,14 +43,38 @@ export default {
         }
     },
     data() {
-
-    },
-    methods: {
-        async editIcon(keyword) {
-            console.log("EDIT");
+        return {
+            currentPage: 1,
+            totalKeys: 0,
+            pageLim: 5,
+            bgcolor: '#f1f1f1',
+            color: 'black'
         }
     },
+    methods: {
+        // async getKeys() {
+        //     const {data} = await axios.get("https://svg.q19.kz/api/v1/icons/", {
+        //         params: {
+        //             limit: this.pageSize,
+        //             keyword: this.search.toLowerCase(),
+        //             page: this.currentPage
 
+        //         }
+        //     })
+        //     // console.log("res", data)
+        //     this.icons = data.data
+        //     this.totalIcons = data.total;
+        // },
+        pagClick(index) {
+            this.currentPage = index
+        },
+    },
+    created() {
+        this.totalKeys = this.icon.keywords.length
+    },
+    mounted() {
+    }
+    
 }
 </script>
 
